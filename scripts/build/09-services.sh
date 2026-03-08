@@ -30,3 +30,5 @@ update-ca-trust
 ### Enable system services
 systemctl enable podman.socket
 systemctl enable systemd-oomd
+systemctl enable virtqemud.socket
+systemctl enable virtnetworkd.socket

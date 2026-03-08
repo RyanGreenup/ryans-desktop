@@ -7,3 +7,4 @@ maim
 meld
 qutebrowser
 torbrowser-launcher
+virt-manager

@@ -377,3 +377,18 @@ build-toolbox:
     fi
     podman build --tag "${IMAGE}:${TAG}" --tag "${IMAGE}:latest" "$CONTEXT"
     echo "Built ${IMAGE}:${TAG}"
+
+# Generate cosign key pair and upload private key to GitHub as SIGNING_SECRET
+[group('Utility')]
+setup-signing:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    if [[ -f cosign.pub ]]; then
+        echo "cosign.pub already exists. Remove it first to regenerate."
+        exit 1
+    fi
+    cosign generate-key-pair
+    gh secret set SIGNING_SECRET < cosign.key
+    rm cosign.key
+    echo "Signing secret uploaded to GitHub. cosign.pub kept for verification."
+    echo "Commit cosign.pub to the repo if you want others to verify signatures."

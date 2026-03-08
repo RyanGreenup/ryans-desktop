@@ -1,0 +1,12 @@
+[Unit]
+Description=Configure bees (btrfs dedup) on first boot
+After=local-fs.target
+ConditionPathExists=!/var/lib/bees-first-boot-done
+
+[Service]
+Type=oneshot
+ExecStart=/usr/libexec/setup-bees.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

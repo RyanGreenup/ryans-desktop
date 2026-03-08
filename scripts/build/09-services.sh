@@ -16,6 +16,17 @@ install -Dm755 /ctx/scripts/first-boot/install-go-tools.sh /usr/libexec/install-
 install -Dm644 /ctx/systemd/go-tools-first-boot.service /usr/lib/systemd/system/go-tools-first-boot.service
 systemctl enable go-tools-first-boot.service
 
+install -Dm755 /ctx/scripts/first-boot/setup-bees.sh /usr/libexec/setup-bees.sh
+install -Dm644 /ctx/systemd/bees-first-boot.service /usr/lib/systemd/system/bees-first-boot.service
+systemctl enable bees-first-boot.service
+
+### bootc install config
+install -Dm644 /ctx/config/bootc-install.toml /usr/lib/bootc/install/00-image.toml
+
+### CA certificates
+install -Dm644 /ctx/build_files/certs/vidar-root.crt /usr/share/pki/ca-trust-source/anchors/vidar-root.crt
+update-ca-trust
+
 ### Enable system services
 systemctl enable podman.socket
 systemctl enable systemd-oomd

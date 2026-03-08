@@ -12,6 +12,7 @@ FROM ghcr.io/ublue-os/cosmic-atomic-main:latest
 # DNF packages from lists (stable, slow)
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/cache \
+    --mount=type=tmpfs,dst=/run \
     /ctx/scripts/build/00-packages.sh
 
 # NVIDIA CUDA toolkit
@@ -29,11 +30,13 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
 # Custom RPMs
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/cache \
+    --mount=type=tmpfs,dst=/run \
     /ctx/scripts/build/03-rpms.sh
 
 # COPR packages
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/cache \
+    --mount=type=tmpfs,dst=/run \
     /ctx/scripts/build/04-copr.sh
 
 # Rust tools (cargo binstall)
@@ -59,6 +62,7 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
 
 # First-boot services + systemctl enables (changes most often)
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
+    --mount=type=tmpfs,dst=/run \
     /ctx/scripts/build/09-services.sh
 
 # Verify final image and contents are correct.

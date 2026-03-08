@@ -20,6 +20,10 @@ install -Dm755 /ctx/scripts/first-boot/setup-bees.sh /usr/libexec/setup-bees.sh
 install -Dm644 /ctx/systemd/bees-first-boot.service /usr/lib/systemd/system/bees-first-boot.service
 systemctl enable bees-first-boot.service
 
+install -Dm755 /ctx/scripts/first-boot/setup-snapper.sh /usr/libexec/setup-snapper.sh
+install -Dm644 /ctx/systemd/snapper-first-boot.service /usr/lib/systemd/system/snapper-first-boot.service
+systemctl enable snapper-first-boot.service
+
 ### bootc install config
 install -Dm644 /ctx/config/bootc-install.toml /usr/lib/bootc/install/00-image.toml
 

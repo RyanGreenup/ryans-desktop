@@ -18,6 +18,7 @@ opendoas
 plocate
 pv
 restic
+snapper
 skim
 unison
 unrar

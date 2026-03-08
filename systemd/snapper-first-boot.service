@@ -1,0 +1,12 @@
+[Unit]
+Description=Configure snapper on first boot
+After=local-fs.target
+ConditionPathExists=!/var/lib/snapper-first-boot-done
+
+[Service]
+Type=oneshot
+ExecStart=/usr/libexec/setup-snapper.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

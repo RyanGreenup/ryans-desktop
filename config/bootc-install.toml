@@ -1,0 +1,5 @@
+[install.filesystem.root]
+type = "btrfs"
+
+[install]
+root-mount-spec = "LABEL=fedora"

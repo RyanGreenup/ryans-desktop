@@ -334,6 +334,19 @@ switch $target_image=("localhost/" + image_name) $tag=default_tag: (_rootful_loa
     fi
 
 
+# Switch the current system to the remote (GHCR) image using bootc
+[group('Deploy')]
+switch-remote $tag=default_tag:
+    #!/usr/bin/bash
+    set -euxo pipefail
+    REMOTE_IMAGE="ghcr.io/$(git remote get-url origin | sed -E 's|.*github\.com[:/]||;s|\.git$||' | tr '[:upper:]' '[:lower:]')"
+    # Use 'upgrade' if already on this image, 'switch' if not
+    if bootc status --format json | jq -re '.spec.image.transport + ":" + .spec.image.image' | grep -q "registry:${REMOTE_IMAGE}:${tag}"; then
+        sudo bootc upgrade --apply --soft-reboot 'auto'
+    else
+        sudo bootc switch --retain "${REMOTE_IMAGE}:${tag}" --apply --soft-reboot 'auto'
+    fi
+
 # Build with no cache (fresh packages from upstream)
 [group('Build')]
 build-fresh $target_image=image_name $tag=default_tag:

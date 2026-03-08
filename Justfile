@@ -329,8 +329,8 @@ switch $target_image=("localhost/" + image_name) $tag=default_tag: (_rootful_loa
     if bootc status --format json | jq -re '.spec.image.transport + ":" + .spec.image.image' | grep -q "containers-storage:${target_image}:${tag}"; then
         sudo bootc upgrade --apply --soft-reboot 'auto'
     else
-        # sudo bootc switch --retain --transport containers-storage "${target_image}:${tag}" --apply --soft-reboot 'auto'
-        sudo bootc switch --retain --transport containers-storage "${target_image}:${tag}" --apply --soft-reboot 'required'
+        sudo bootc switch --retain --transport containers-storage "${target_image}:${tag}" --apply --soft-reboot 'auto'
+        # sudo bootc switch --retain --transport containers-storage "${target_image}:${tag}" --apply --soft-reboot 'required'
     fi
 
 
@@ -361,3 +361,19 @@ deploy-fresh $target_image=("localhost/" + image_name) $tag=default_tag:
     podman pull ghcr.io/ublue-os/cosmic-atomic-main:latest
     just build-fresh {{ target_image }} {{ tag }}
     just switch {{ target_image }} {{ tag }}
+
+# Build the toolbox container image (idempotent, skips if unchanged)
+[group('Build')]
+build-toolbox:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    CONTEXT="build_files/toolboxes"
+    IMAGE="toolbox"
+    HASH=$(cat "$CONTEXT/Containerfile" "$CONTEXT"/packages/*.txt | sha256sum | cut -c1-12)
+    TAG="sha-${HASH}"
+    if podman image exists "${IMAGE}:${TAG}"; then
+        echo "Toolbox image ${IMAGE}:${TAG} already up to date."
+        exit 0
+    fi
+    podman build --tag "${IMAGE}:${TAG}" --tag "${IMAGE}:latest" "$CONTEXT"
+    echo "Built ${IMAGE}:${TAG}"

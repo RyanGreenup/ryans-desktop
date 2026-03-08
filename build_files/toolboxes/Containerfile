@@ -1,0 +1,14 @@
+FROM registry.fedoraproject.org/fedora-toolbox:latest
+COPY packages /tmp/packages
+RUN PACKAGES=""; \
+    for list in /tmp/packages/*.txt; do \
+        while IFS= read -r pkg; do \
+            [[ -z "$pkg" || "$pkg" == \#* ]] && continue; \
+            PACKAGES="$PACKAGES $pkg"; \
+        done < "$list"; \
+    done; \
+    if [[ -n "$PACKAGES" ]]; then \
+        dnf5 install -y $PACKAGES; \
+        dnf5 clean all; \
+    fi; \
+    rm -rf /tmp/packages

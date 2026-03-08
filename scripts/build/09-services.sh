@@ -24,7 +24,7 @@ systemctl enable bees-first-boot.service
 install -Dm644 /ctx/config/bootc-install.toml /usr/lib/bootc/install/00-image.toml
 
 ### CA certificates
-install -Dm644 /ctx/build_files/certs/vidar-root.crt /usr/share/pki/ca-trust-source/anchors/vidar-root.crt
+install -Dm644 /ctx/config/certs/vidar-root.crt /usr/share/pki/ca-trust-source/anchors/vidar-root.crt
 update-ca-trust
 
 ### Enable system services

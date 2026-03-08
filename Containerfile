@@ -65,5 +65,9 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=tmpfs,dst=/run \
     /ctx/scripts/build/09-services.sh
 
+# Ensure /var/run is a symlink to /run (required by bootc)
+RUN rm -rf /var/run && \
+    ln -s /run /var/run
+
 # Verify final image and contents are correct.
 RUN bootc container lint

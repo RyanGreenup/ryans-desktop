@@ -1,0 +1,13 @@
+[Unit]
+Description=Install Flatpak apps on first boot
+After=network-online.target
+Wants=network-online.target
+ConditionPathExists=!/var/lib/flatpak-first-boot-done
+
+[Service]
+Type=oneshot
+ExecStart=/usr/libexec/install-flatpaks.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

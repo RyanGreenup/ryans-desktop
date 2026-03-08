@@ -1,0 +1,13 @@
+# Desktop environment and window managers
+brightnessctl
+fuzzel
+grim
+niri
+slurp
+sway
+swaybg
+swaylock
+waybar
+wev
+wl-clipboard
+wofi

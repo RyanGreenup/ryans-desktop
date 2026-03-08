@@ -1,0 +1,9 @@
+# GUI applications
+alacritty
+imv
+figlet
+kitty
+maim
+meld
+qutebrowser
+torbrowser-launcher

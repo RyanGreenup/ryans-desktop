@@ -1,0 +1,2 @@
+# Flatpaks to remove that ship with the base image
+# Set REMOVE_UNWANTED=true in install-flatpaks.sh to enable

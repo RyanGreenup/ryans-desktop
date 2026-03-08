@@ -1,4 +1,5 @@
 cosign.key
 _build_*
+_build_podman_scp.*
 output
 _build-*/**

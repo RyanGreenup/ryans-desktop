@@ -249,6 +249,14 @@ Runs shell check on all Bash scripts.
 
 Runs shfmt on all Bash scripts.
 
+## Syncing Flatpak App Settings
+
+To sync Flatpak app configs to another machine:
+
+```bash
+rsync -aH --exclude='cache/' ~/.var/app/ user@target:~/.var/app/
+```
+
 ## Additional resources
 
 For additional driver support, ublue maintains a set of scripts and container images available at [ublue-akmod](https://github.com/ublue-os/akmods). These images include the necessary scripts to install multiple kernel drivers within the container (Nvidia, OpenRazer, Framework...). The documentation provides guidance on how to properly integrate these drivers into your container image.

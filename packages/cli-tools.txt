@@ -1,0 +1,16 @@
+# CLI utilities and shell tools
+bat
+btop
+dust
+duf
+fish
+htop
+just
+neovim
+fastfetch
+tealdeer
+tmux
+tree
+zoxide
+zsh
+jq

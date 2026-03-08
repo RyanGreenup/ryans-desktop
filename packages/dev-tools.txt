@@ -1,0 +1,18 @@
+# Development tools and languages
+ccache
+cmake
+gdb
+git-delta
+git-lfs
+go
+lld
+lldb
+mingw64-gcc
+nasm
+npm
+patchelf
+pyside6-tools
+python3-pyside6
+qt-creator
+r
+rustup

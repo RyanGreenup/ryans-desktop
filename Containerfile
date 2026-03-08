@@ -1,52 +1,65 @@
 # Allow build scripts to be referenced without being copied into the final image
 FROM scratch AS ctx
-COPY build_files /
+COPY packages /packages
+COPY rpms /rpms
+COPY scripts /scripts
+COPY systemd /systemd
+COPY config /config
 
 # Base Image
-# FROM ghcr.io/ublue-os/bazzite:stable
-  FROM ghcr.io/ublue-os/cosmic-atomic-main
+FROM ghcr.io/ublue-os/cosmic-atomic-main:latest
 
-## Other possible base images include:
-# FROM ghcr.io/ublue-os/bazzite:latest
-# FROM ghcr.io/ublue-os/bluefin-nvidia:stable
-# 
-# ... and so on, here are more base images
-# Universal Blue Images: https://github.com/orgs/ublue-os/packages
-# Fedora base image: quay.io/fedora/fedora-bootc:41
-# CentOS base images: quay.io/centos-bootc/centos-bootc:stream10
-
-### [IM]MUTABLE /opt
-## Some bootable images, like Fedora, have /opt symlinked to /var/opt, in order to
-## make it mutable/writable for users. However, some packages write files to this directory,
-## thus its contents might be wiped out when bootc deploys an image, making it troublesome for
-## some packages. Eg, google-chrome, docker-desktop.
-##
-## Uncomment the following line if one desires to make /opt immutable and be able to be used
-## by the package manager.
-
-# RUN rm /opt && mkdir /opt
-
-
-# Btrfs
-RUN rpm-ostree install bees && \
-  rpm-ostree cleanup -m && \
-  ostree container commit
-
-
-
-
-
-
-### MODIFICATIONS
-## make modifications desired in your image and install packages by modifying the build.sh script
-## the following RUN directive does all the things required to run "build.sh" as recommended.
-
+# DNF packages from lists (stable, slow)
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/cache \
-    --mount=type=cache,dst=/var/log \
+    /ctx/scripts/build/00-packages.sh
+
+# NVIDIA CUDA toolkit
+RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
+    --mount=type=cache,dst=/var/cache \
+    --mount=type=tmpfs,dst=/run \
+    /ctx/scripts/build/01-nvidia-cuda.sh
+
+# NVIDIA Container Toolkit
+RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
+    --mount=type=cache,dst=/var/cache \
+    --mount=type=tmpfs,dst=/run \
+    /ctx/scripts/build/02-nvidia-container.sh
+
+# Custom RPMs
+RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
+    --mount=type=cache,dst=/var/cache \
+    /ctx/scripts/build/03-rpms.sh
+
+# COPR packages
+RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
+    --mount=type=cache,dst=/var/cache \
+    /ctx/scripts/build/04-copr.sh
+
+# Rust tools (cargo binstall)
+RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=tmpfs,dst=/tmp \
-    /ctx/build.sh
-    
-### LINTING
-## Verify final image and contents are correct.
+    /ctx/scripts/build/05-rust-tools.sh
+
+# GitHub release binaries
+RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
+    --mount=type=tmpfs,dst=/tmp \
+    /ctx/scripts/build/06-github-releases.sh
+
+# Standalone tools (bun, duckdb, clickhouse)
+RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
+    --mount=type=tmpfs,dst=/tmp \
+    /ctx/scripts/build/07-standalone.sh
+
+# RStudio
+RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
+    --mount=type=cache,dst=/var/cache \
+    --mount=type=tmpfs,dst=/tmp \
+    /ctx/scripts/build/08-rstudio.sh
+
+# First-boot services + systemctl enables (changes most often)
+RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
+    /ctx/scripts/build/09-services.sh
+
+# Verify final image and contents are correct.
 RUN bootc container lint

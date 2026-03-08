@@ -1,0 +1,31 @@
+https://ajmaradiaga.com/Adding-trusting-CA-Fedora/
+
+
+nd not found
+ryan@vale:~$ rsync -avh user@vidar:/tmp/root.crt /tmp/
+The authenticity of host 'vidar (192.168.10.190)' can't be established.
+ED25519 key fingerprint is SHA256:MloyqFreD0PrubX9q29SIF4ye2ma6P1nF/XlnSHeDHk.
+This host key is known by the following other names/addresses:
+    ~/.ssh/known_hosts:5: foo.vidar
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added 'vidar' (ED25519) to the list of known hosts.
+receiving incremental file list
+root.crt
+
+sent 43 bytes  received 734 bytes  310.80 bytes/sec
+total size is 627  speedup is 0.81
+ryan@vale:~$ sudo mv /tmp/root.crt /etc/pki/ca-trust/source/anchors/vidar-root.crt
+[sudo] password for ryan:
+ryan@vale:~$ ls /etc/pki/ca-trust/source/anchors/vidar-root.crt
+/etc/pki/ca-trust/source/anchors/vidar-root.crt
+ryan@vale:~$ sudo update-ca-trust
+ryan@vale:~$
+
+
+
+
+
+
+
+
+just make it public?

@@ -1,0 +1,6 @@
+# Document and typesetting tools
+zathura
+zathura-cb
+zathura-djvu
+zathura-pdf-mupdf
+zathura-ps

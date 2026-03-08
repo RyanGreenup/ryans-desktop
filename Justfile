@@ -317,3 +317,47 @@ format:
     fi
     # Run shfmt on all Bash scripts
     /usr/bin/find . -iname "*.sh" -type f -exec shfmt --write "{}" ';'
+
+
+
+# Switch the current system to the locally-built image using bootc
+[group('Deploy')]
+switch $target_image=("localhost/" + image_name) $tag=default_tag: (_rootful_load_image target_image tag)
+    #!/usr/bin/bash
+    set -euxo pipefail
+    # Use 'upgrade' if already on this image, 'switch' if not
+    if bootc status --format json | jq -re '.spec.image.transport + ":" + .spec.image.image' | grep -q "containers-storage:${target_image}:${tag}"; then
+        sudo bootc upgrade --apply --soft-reboot 'auto'
+    else
+        # sudo bootc switch --retain --transport containers-storage "${target_image}:${tag}" --apply --soft-reboot 'auto'
+        sudo bootc switch --retain --transport containers-storage "${target_image}:${tag}" --apply --soft-reboot 'required'
+    fi
+
+
+# Build with no cache (fresh packages from upstream)
+[group('Build')]
+build-fresh $target_image=image_name $tag=default_tag:
+    #!/usr/bin/env bash
+    BUILD_ARGS=()
+    if [[ -z "$(git status -s)" ]]; then
+        BUILD_ARGS+=("--build-arg" "SHA_HEAD_SHORT=$(git rev-parse --short HEAD)")
+    fi
+    podman build \
+        "${BUILD_ARGS[@]}" \
+        --no-cache \
+        --pull=newer \
+        --tag "${target_image}:${tag}" \
+        .
+
+# Build and switch (cached, fast iteration)
+[group('Deploy')]
+deploy $target_image=("localhost/" + image_name) $tag=default_tag:
+    just build {{ target_image }} {{ tag }}
+    just switch {{ target_image }} {{ tag }}
+
+# Pull latest base, build fresh, and switch (for updates)
+[group('Deploy')]
+deploy-fresh $target_image=("localhost/" + image_name) $tag=default_tag:
+    podman pull ghcr.io/ublue-os/cosmic-atomic-main:latest
+    just build-fresh {{ target_image }} {{ tag }}
+    just switch {{ target_image }} {{ tag }}

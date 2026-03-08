@@ -1,0 +1,13 @@
+[Unit]
+Description=Install electron via bun for claude-desktop
+After=network-online.target
+Wants=network-online.target
+ConditionPathExists=!/var/lib/electron-first-boot-done
+
+[Service]
+Type=oneshot
+ExecStart=/usr/libexec/install-electron.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

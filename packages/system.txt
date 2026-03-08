@@ -1,0 +1,24 @@
+# System utilities and hardware
+age
+aspell
+bees
+bind
+blueman
+caddy
+davfs2
+dnsmasq
+fuse-overlayfs
+fuse-zip
+hwinfo
+hyperfine
+inxi
+mc
+opendoas
+plocate
+pv
+skim
+unison
+unrar
+wine
+winetricks
+wmctrl

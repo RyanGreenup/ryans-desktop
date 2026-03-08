@@ -1,0 +1,10 @@
+# Cloud, databases, and data tools
+aws
+postgresql-libs
+psqlodbc
+pgcli
+httpie
+socat
+direnv
+gitui
+entr

@@ -1,0 +1,54 @@
+Trim the deps a bit:
+
+```
+Package                                    Deps
+-----------------------------------------------
+google-noto-fonts-all                       623
+qt-creator                                  290
+python3-pyside6                             275
+lldb                                         94
+cmake                                        90
+waybar                                       72
+kdeplasma-addons                             70
+dolphin                                      69
+sway                                         47
+niri                                         45
+bind                                         43
+zathura                                      42
+aws                                          41
+wine                                         41
+s3fs-fuse                                    40
+lld                                          39
+kitty                                        38
+ccache                                       36
+mosh                                         35
+maim                                         33
+btop                                         32
+pyside6-tools                                32
+bees                                         30
+inxi                                         30
+imv                                          29
+mingw64-gcc                                  27
+aspell                                       26
+plocate                                      25
+blueman                                      24
+neovim                                       21
+wofi                                         21
+gitui                                        19
+fuse-zip                                     19
+fish                                         18
+jq                                           18
+fuzzel                                       18
+alacritty                                    17
+tmux                                         17
+patchelf                                     17
+cava                                         17
+dnsmasq                                      17
+torbrowser-launcher                          16
+rustup                                       16
+mc                                           16
+zsh                                          15
+pgcli                                        14
+git-delta                                    14
+mediainfo                                    14
+```

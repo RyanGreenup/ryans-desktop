@@ -1,0 +1,7 @@
+# Fonts
+google-noto-fonts-all
+google-noto-color-emoji-fonts
+bitstream-vera-fonts-all
+dejavu-fonts-all
+liberation-fonts-all
+open-sans-fonts

@@ -1,0 +1,13 @@
+[Unit]
+Description=Install Go tools on first boot
+After=network-online.target
+Wants=network-online.target
+ConditionPathExists=!/var/lib/go-tools-first-boot-done
+
+[Service]
+Type=oneshot
+ExecStart=/usr/libexec/install-go-tools.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

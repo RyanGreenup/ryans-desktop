@@ -1,0 +1,6 @@
+# Containers and orchestration
+distrobox
+docker
+docker-buildx
+docker-compose
+podman-compose

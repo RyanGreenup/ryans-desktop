@@ -7,7 +7,8 @@ COPY systemd /systemd
 COPY config /config
 
 # Base Image
-FROM ghcr.io/ublue-os/cosmic-atomic-main:latest
+# FROM ghcr.io/ublue-os/cosmic-atomic-main:latest
+ FROM ghcr.io/ublue-os/cosmic-atomic-nvidia:latest
 
 # DNF packages from lists (stable, slow)
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \

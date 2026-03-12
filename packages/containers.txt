@@ -3,4 +3,5 @@ distrobox
 docker
 docker-buildx
 docker-compose
+podlet
 podman-compose

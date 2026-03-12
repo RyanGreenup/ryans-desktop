@@ -15,6 +15,7 @@ hyperfine
 inxi
 mc
 opendoas
+parallel
 plocate
 pv
 restic

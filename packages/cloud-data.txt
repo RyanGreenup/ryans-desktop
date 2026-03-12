@@ -1,6 +1,7 @@
 # Cloud, databases, and data tools
 aws
 doctl
+gh
 postgresql-libs
 psqlodbc
 pgcli

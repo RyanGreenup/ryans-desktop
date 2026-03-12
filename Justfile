@@ -391,6 +391,11 @@ build-toolbox:
     podman build --tag "${IMAGE}:${TAG}" --tag "${IMAGE}:latest" "$CONTEXT"
     echo "Built ${IMAGE}:${TAG}"
 
+# Watch the latest GitHub Actions build
+[group('Utility')]
+watch-build:
+    gh run watch $(gh run list --limit 1 --json databaseId -q '.[0].databaseId')
+
 # Generate cosign key pair and upload private key to GitHub as SIGNING_SECRET
 [group('Utility')]
 setup-signing:

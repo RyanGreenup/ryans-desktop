@@ -73,9 +73,9 @@ RUN --mount=type=bind,from=ctx-scripts,source=/scripts/build/08-rstudio.sh,targe
     /ctx/scripts/build/08-rstudio.sh
 
 # ── Merge self-contained binaries (cache-independent via --link) ─────────────
-COPY --link --from=rust-tools /usr/bin/ouch /usr/bin/nu /usr/bin/typst /usr/bin/
-COPY --link --from=github-releases /usr/bin/btdu /usr/bin/sops /usr/bin/kompose /usr/bin/s5cmd /usr/bin/
-COPY --link --from=standalone /usr/bin/bun /usr/bin/bunx /usr/bin/duckdb /usr/bin/clickhouse /usr/bin/
+COPY --from=rust-tools /usr/bin/ouch /usr/bin/nu /usr/bin/typst /usr/bin/
+COPY --from=github-releases /usr/bin/btdu /usr/bin/sops /usr/bin/kompose /usr/bin/s5cmd /usr/bin/
+COPY --from=standalone /usr/bin/bun /usr/bin/bunx /usr/bin/duckdb /usr/bin/clickhouse /usr/bin/
 
 # First-boot services + systemctl enables (changes most often)
 RUN --mount=type=bind,from=ctx-scripts,source=/scripts,target=/ctx/scripts \

@@ -12,3 +12,6 @@ npm
 patchelf
 r
 rustup
+sops
+age
+expect

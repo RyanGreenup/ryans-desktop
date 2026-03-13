@@ -1,4 +1,4 @@
-export image_name := env("IMAGE_NAME", "image-template") # output image name, usually same as repo name, change as needed
+export image_name := env("IMAGE_NAME", "ryans-desktop") # output image name, usually same as repo name, change as needed
 export default_tag := env("DEFAULT_TAG", "latest")
 export bib_image := env("BIB_IMAGE", "quay.io/centos-bootc/bootc-image-builder:latest")
 
@@ -390,6 +390,17 @@ build-toolbox:
     fi
     podman build --tag "${IMAGE}:${TAG}" --tag "${IMAGE}:latest" "$CONTEXT"
     echo "Built ${IMAGE}:${TAG}"
+
+# Seed bootc storage from local podman image to avoid re-downloading on switch-remote
+[group('Utility')]
+seed-remote $target_image=image_name $tag=default_tag:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    REMOTE_IMAGE="ghcr.io/$(git remote get-url origin | sed -E 's|.*github\.com[:/]||;s|\.git$||' | tr '[:upper:]' '[:lower:]')"
+    podman tag "${target_image}:${tag}" "${REMOTE_IMAGE}:${tag}"
+    sudo skopeo copy \
+        containers-storage:"${REMOTE_IMAGE}:${tag}" \
+        ostree-unverified-registry:"${REMOTE_IMAGE}:${tag}"
 
 # Watch the latest GitHub Actions build
 [group('Utility')]

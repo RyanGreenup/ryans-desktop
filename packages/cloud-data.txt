@@ -10,3 +10,5 @@ socat
 direnv
 gitui
 entr
+ignition
+butane

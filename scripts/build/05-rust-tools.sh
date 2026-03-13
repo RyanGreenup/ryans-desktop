@@ -2,9 +2,10 @@
 set -ouex pipefail
 
 export CARGO_HOME=/tmp/cargo RUSTUP_HOME=/tmp/rustup
-rustup-init -y --no-modify-path --profile minimal
+curl -fsSL https://sh.rustup.rs | sh -s -- -y --no-modify-path --profile minimal
 source "$CARGO_HOME/env"
-cargo install cargo-binstall
+curl -fsSL https://github.com/cargo-bins/cargo-binstall/releases/latest/download/cargo-binstall-x86_64-unknown-linux-musl.tgz \
+    | tar -xz -C "$CARGO_HOME/bin"
 cargo binstall -y --force ouch nu typst-cli
 install -Dm755 "$CARGO_HOME/bin/ouch" /usr/bin/ouch
 install -Dm755 "$CARGO_HOME/bin/nu" /usr/bin/nu

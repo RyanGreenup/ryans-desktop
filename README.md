@@ -257,6 +257,21 @@ To sync Flatpak app configs to another machine:
 rsync -aH --exclude='cache/' ~/.var/app/ user@target:~/.var/app/
 ```
 
+## Notes
+
+- **Wine/Proton**: Not installed in the image. Flatpak Steam bundles its own Proton, so host Wine is unnecessary.
+- **CUDA toolkit**: Not installed in the image. The base NVIDIA image provides the driver and container toolkit. Use containerized CUDA for ML workloads (e.g. `podman run --device nvidia.com/gpu=all nvidia/cuda:12.6.3-runtime-ubuntu24.04 ...`).
+- **Windows cross-compilation**: `mingw64-gcc` is not installed. Use a container instead:
+  ```bash
+  podman run --rm -v "$PWD":/src:z -w /src docker.io/dockcross/windows-static-x64 cmake --build .
+  # or a Fedora container with mingw:
+  podman run --rm -v "$PWD":/src:z -w /src fedora:latest bash -c "dnf install -y mingw64-gcc && x86_64-w64-mingw32-gcc -o app.exe main.c"
+  ```
+- **Qt/PySide6 development**: `qt-creator`, `pyside6-tools`, and `python3-pyside6` are not installed. For Python Qt development, use `uv pip install pyside6`. For C++/Qt development, use a container:
+  ```bash
+  podman run --rm -v "$PWD":/src:z -w /src fedora:latest bash -c "dnf install -y qt-creator qt6-qtbase-devel && cmake --build ."
+  ```
+
 ## Additional resources
 
 For additional driver support, ublue maintains a set of scripts and container images available at [ublue-akmod](https://github.com/ublue-os/akmods). These images include the necessary scripts to install multiple kernel drivers within the container (Nvidia, OpenRazer, Framework...). The documentation provides guidance on how to properly integrate these drivers into your container image.

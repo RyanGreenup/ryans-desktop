@@ -2,7 +2,7 @@
 set -ouex pipefail
 
 export CARGO_HOME=/tmp/cargo RUSTUP_HOME=/tmp/rustup
-rustup-init -y --profile minimal
+rustup-init -y --no-modify-path --profile minimal
 source "$CARGO_HOME/env"
 cargo install cargo-binstall
 cargo binstall -y --force ouch nu typst-cli

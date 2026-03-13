@@ -13,3 +13,6 @@ done
 if [[ -n "$PACKAGES" ]]; then
     dnf5 install -y $DNF_OPTS $PACKAGES
 fi
+
+# Slim down locale data (~400 MiB saved)
+dnf5 swap -y glibc-all-langpacks glibc-langpack-en

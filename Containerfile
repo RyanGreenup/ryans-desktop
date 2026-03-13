@@ -16,17 +16,18 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=tmpfs,dst=/run \
     /ctx/scripts/build/00-packages.sh
 
-# NVIDIA CUDA toolkit
-RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
-    --mount=type=cache,dst=/var/cache \
-    --mount=type=tmpfs,dst=/run \
-    /ctx/scripts/build/01-nvidia-cuda.sh
+# NVIDIA CUDA toolkit — removed; use containerized CUDA instead:
+#   podman run --rm --device nvidia.com/gpu=all nvidia/cuda:12.6.3-runtime-ubuntu24.04 ...
+# RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
+#     --mount=type=cache,dst=/var/cache \
+#     --mount=type=tmpfs,dst=/run \
+#     /ctx/scripts/build/01-nvidia-cuda.sh
 
-# NVIDIA Container Toolkit
-RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
-    --mount=type=cache,dst=/var/cache \
-    --mount=type=tmpfs,dst=/run \
-    /ctx/scripts/build/02-nvidia-container.sh
+# NVIDIA Container Toolkit — already in base image (cosmic-atomic-nvidia)
+# RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
+#     --mount=type=cache,dst=/var/cache \
+#     --mount=type=tmpfs,dst=/run \
+#     /ctx/scripts/build/02-nvidia-container.sh
 
 # Custom RPMs
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
@@ -65,6 +66,15 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=tmpfs,dst=/run \
     /ctx/scripts/build/09-services.sh
+
+
+
+
+
+
+############################################################
+# Run Last #################################################
+############################################################
 
 # Ensure /var/run is a symlink to /run (required by bootc)
 RUN rm -rf /var/run && \

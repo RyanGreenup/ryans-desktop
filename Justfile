@@ -398,9 +398,7 @@ seed-remote $target_image=image_name $tag=default_tag:
     set -euo pipefail
     REMOTE_IMAGE="ghcr.io/$(git remote get-url origin | sed -E 's|.*github\.com[:/]||;s|\.git$||' | tr '[:upper:]' '[:lower:]')"
     podman tag "${target_image}:${tag}" "${REMOTE_IMAGE}:${tag}"
-    sudo skopeo copy \
-        containers-storage:"${REMOTE_IMAGE}:${tag}" \
-        ostree-unverified-registry:"${REMOTE_IMAGE}:${tag}"
+    just sudoif podman image scp "$(id -u)"@localhost::"${REMOTE_IMAGE}:${tag}" root@localhost::"${REMOTE_IMAGE}:${tag}"
 
 # Watch the latest GitHub Actions build
 [group('Utility')]

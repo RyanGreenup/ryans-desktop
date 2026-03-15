@@ -86,7 +86,7 @@ RUN --mount=type=bind,from=ctx-scripts,source=/scripts,target=/ctx/scripts \
 
 # Open firewall ports for HTTP/HTTPS
 # On a live system: sudo firewall-cmd --permanent --add-service=http
-RUN firewall-offline-cmd --add-port=80/tcp --add-port=443/tcp
+RUN firewall-offline-cmd --add-port=80/tcp --add-port=443/tcp --add-port=51820/udp
 
 # Ensure /var/run is a symlink to /run (required by bootc)
 RUN rm -rf /var/run && \

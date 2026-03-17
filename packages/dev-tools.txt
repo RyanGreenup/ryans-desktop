@@ -4,6 +4,7 @@ cmake
 gdb
 git-delta
 git-lfs
+git-subtree
 go
 lld
 lldb

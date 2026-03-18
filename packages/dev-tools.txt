@@ -11,9 +11,11 @@ lldb
 nasm
 npm
 patchelf
+plantuml
 r
 rustup
 age
+asciinema
 expect
 yq
 postgresql

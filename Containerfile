@@ -38,6 +38,12 @@ RUN --mount=type=bind,from=ctx-scripts,source=/scripts/build/07-standalone.sh,ta
     --mount=type=tmpfs,dst=/tmp \
     /run/build.sh
 
+FROM base AS go-tools
+RUN --mount=type=bind,from=ctx-scripts,source=/scripts/build/10-go-tools.sh,target=/run/build.sh \
+    --mount=type=tmpfs,dst=/tmp \
+    --mount=type=cache,dst=/var/cache \
+    /run/build.sh
+
 # ── Main sequential build ────────────────────────────────────────────────────
 FROM base
 
@@ -76,6 +82,7 @@ RUN --mount=type=bind,from=ctx-scripts,source=/scripts/build/08-rstudio.sh,targe
 COPY --from=rust-tools /usr/bin/ouch /usr/bin/nu /usr/bin/typst /usr/bin/
 COPY --from=github-releases /usr/bin/btdu /usr/bin/sops /usr/bin/kompose /usr/bin/s5cmd /usr/bin/
 COPY --from=standalone /usr/bin/bun /usr/bin/bunx /usr/bin/duckdb /usr/bin/clickhouse /usr/bin/
+COPY --from=go-tools /usr/bin/d2 /usr/bin/
 
 # First-boot services + systemctl enables (changes most often)
 RUN --mount=type=bind,from=ctx-scripts,source=/scripts,target=/ctx/scripts \

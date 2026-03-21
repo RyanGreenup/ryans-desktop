@@ -1,11 +1,13 @@
 # Development tools and languages
 ccache
 cmake
+gcc-c++
 gdb
 git-delta
 git-lfs
 git-subtree
 go
+graphviz
 lld
 lldb
 nasm

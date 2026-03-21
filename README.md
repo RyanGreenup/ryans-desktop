@@ -267,6 +267,10 @@ rsync -aH --exclude='cache/' ~/.var/app/ user@target:~/.var/app/
   # or a Fedora container with mingw:
   podman run --rm -v "$PWD":/src:z -w /src fedora:latest bash -c "dnf install -y mingw64-gcc && x86_64-w64-mingw32-gcc -o app.exe main.c"
   ```
+- **Diagramming extras to consider**:
+  - `mermaid-cli` (`npm install -g @mermaid-js/mermaid-cli`) — Markdown-native diagramming from the CLI
+  - `vhs` ([charmbracelet/vhs](https://github.com/charmbracelet/vhs)) — terminal GIF/screenshot recorder (`go install`)
+  - `agg` ([asciinema/agg](https://github.com/asciinema/agg)) — converts asciinema `.cast` files to animated GIFs
 - **Qt/PySide6 development**: `qt-creator`, `pyside6-tools`, and `python3-pyside6` are not installed. For Python Qt development, use `uv pip install pyside6`. For C++/Qt development, use a container:
   ```bash
   podman run --rm -v "$PWD":/src:z -w /src fedora:latest bash -c "dnf install -y qt-creator qt6-qtbase-devel && cmake --build ."

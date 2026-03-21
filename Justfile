@@ -391,6 +391,11 @@ build-toolbox:
     podman build --tag "${IMAGE}:${TAG}" --tag "${IMAGE}:latest" "$CONTEXT"
     echo "Built ${IMAGE}:${TAG}"
 
+# Create a toolbox from the main desktop image (builds first)
+[group('Utility')]
+create-toolbox name="toolbox" $target_image=image_name $tag=default_tag: (build target_image tag)
+    toolbox create --image {{ target_image }}:{{ tag }} {{ name }}
+
 # Seed bootc storage from local podman image to avoid re-downloading on switch-remote
 [group('Utility')]
 seed-remote $target_image=image_name $tag=default_tag:

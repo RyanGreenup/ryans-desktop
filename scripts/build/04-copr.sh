@@ -10,3 +10,7 @@ dnf5 -y copr disable lihaohong/yazi
 dnf5 -y copr enable pesader/showmethekey
 dnf5 -y $DNF_OPTS install showmethekey
 dnf5 -y copr disable pesader/showmethekey
+
+dnf5 -y copr enable wezfurlong/wezterm-nightly
+dnf5 -y $DNF_OPTS install wezterm
+dnf5 -y copr disable wezfurlong/wezterm-nightly

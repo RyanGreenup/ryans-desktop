@@ -5,6 +5,7 @@ dnf5 install -y golang
 dnf5 clean all
 
 export GOPATH=/tmp/go
+export GOCACHE=/tmp/go-cache
 export GOBIN=/usr/bin
 
 ### d2 — declarative diagramming language

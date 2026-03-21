@@ -79,7 +79,7 @@ RUN --mount=type=bind,from=ctx-scripts,source=/scripts/build/08-rstudio.sh,targe
     /ctx/scripts/build/08-rstudio.sh
 
 # ── Merge self-contained binaries (cache-independent via --link) ─────────────
-COPY --from=rust-tools /usr/bin/ouch /usr/bin/nu /usr/bin/typst /usr/bin/
+COPY --from=rust-tools /usr/bin/ouch /usr/bin/nu /usr/bin/typst /usr/bin/mise /usr/bin/usage /usr/bin/
 COPY --from=github-releases /usr/bin/btdu /usr/bin/sops /usr/bin/kompose /usr/bin/s5cmd /usr/bin/
 COPY --from=standalone /usr/bin/bun /usr/bin/bunx /usr/bin/duckdb /usr/bin/clickhouse /usr/bin/
 COPY --from=go-tools /usr/bin/d2 /usr/bin/

@@ -12,3 +12,4 @@ gitui
 entr
 ignition
 butane
+opentofu

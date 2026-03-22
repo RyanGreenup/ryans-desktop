@@ -7,3 +7,8 @@ experimental=true
 [tasks.attach]
 description = "Create or attach to the devops/sys/ublue-declaration tmux session"
 run = "python3 scripts/tmux-attach.py"
+
+[tasks.j]
+alias = "j"
+description = "Fuzzy-select and run a mise task"
+run = "mise run $(mise tasks --no-header | fzf --height=40% --reverse | awk '{print $1}')"
